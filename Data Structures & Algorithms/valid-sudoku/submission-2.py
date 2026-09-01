@@ -1,0 +1,23 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        rows = [0] * 9
+        cols = [0] * 9
+        box = [0] * 9
+
+        for r in range(len(board)):
+            for c in range(len(board[0])):
+                if board[r][c] == '.':
+                    continue
+                val = int(board[r][c]) - 1
+                if (rows[r] & (1 << val)):
+                    return False
+                if cols[c] & (1 << val):
+                    return False
+                if box[(r//3) * 3 + (c//3)] & (1 << val):
+                    return False
+
+                rows[r] |= 1 << val
+                cols[c] |= 1 << val
+                box[(r//3) * 3 + (c//3)] |= 1 << val
+
+        return True
